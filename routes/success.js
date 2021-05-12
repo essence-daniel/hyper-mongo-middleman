@@ -1,6 +1,6 @@
 const express = require("express");
 const authenticate = require("../middleware/authenticate");
-const mongo = require("../mongo/mongo");
+const Success = require("../models/success");
 
 const router = express.Router();
 
@@ -12,7 +12,13 @@ const router = express.Router();
 
 // handle GET
 router.get("/", authenticate, (req, res) => {
-  mongo.getSuccesses(req, res);
+  Success.find()
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch(() => {
+      res.status(500).send({ message: "failed to retrieve data" });
+    });
 });
 
 // handle POST
@@ -25,7 +31,27 @@ router.post("/", authenticate, (req, res) => {
   if (!(item && size && sku)) {
     res.status(418).send({ message: "incomplete data" });
   } else {
-    mongo.postSuccess(req, res);
+    const key =
+      req.headers?.authorization?.replace(/(bearer| )/gi, "") || req.query.key;
+
+    // Creates new Success model with relevant data
+    const success = new Success({
+      item,
+      size,
+      sku,
+      key,
+    });
+
+    // Save success entry to MongoDB
+    success
+      .save()
+      .then((result) => {
+        res.status(201).send({ message: "added success" });
+      })
+      .catch((err) => {
+        res.status(500).send({ message: "failed to add success" });
+        console.log(err);
+      });
   }
 });
 
