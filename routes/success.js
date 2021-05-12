@@ -1,5 +1,5 @@
 const express = require("express");
-const authenticate = require("../authenticate");
+const authenticate = require("../middleware/authenticate");
 const mongo = require("../mongo/mongo");
 
 const router = express.Router();
