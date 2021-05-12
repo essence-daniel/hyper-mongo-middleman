@@ -5,9 +5,9 @@ Node.js boilerplate code for a [Hyper](https://hyper.co) authenticated, [MongoDB
 ## Usage
 The server is configured so that all license key holders are able to make POST requests to the database, but only certain users are able to GET data. This is managed by an array of discord user IDs in `/middleware/authenticate.js`.
 
-The default route is one for success database entries. The [schema](https://mongoosejs.com/docs/guide.html) of which can be found in `/mongo/models/success.js` and can be modified to suit.
+The default route is one for success database entries. The [schema](https://mongoosejs.com/docs/guide.html) of which can be found in `/models/success.js` and can be modified to suit.
 
-By default, environment variables will be used for the **PORT** `/index.js`, **HYPER_KEY** `/authenticate.js` and **MONGO_DB_URI** `/mongo/mongo.js`, however these values can be hardcoded in their respective files.
+By default, environment variables will be used for the **PORT** `/index.js`, **HYPER_KEY** `/middleware/authenticate.js` and **MONGO_DB_URI** `/index.js`, however these values can be hardcoded in their respective files.
 
 
 To get started with [MongoDB](https://mongodb.com) see this [guide](https://docs.atlas.mongodb.com/getting-started/).
